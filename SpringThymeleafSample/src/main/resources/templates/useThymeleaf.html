@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style type="text/css">
+table {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+td {
+	border: 1px solid black;
+}
+
+th {
+	border: 1px solid black;
+	background-color: gray;
+	color: white;
+}
+</style>
+<title>Thymeleaf Sample</title>
+</head>
+<body>
+	<!-- 01：直接文字を埋め込む -->
+	<h1>01：直接文字を埋め込む</h1>
+	<h3 th:text="'hello world'">表示する部分</h3>
+
+	<hr>
+
+	<!-- 02：インライン処理 -->
+	<h1>02：インライン処理</h1>
+	<h3>こんにちは！[[${name}]]さん</h3>
+
+	<hr>
+
+	<!-- 03：値結合 -->
+	<h1>03：値結合</h1>
+	<h3 th:text="'明日は、' + '晴れ' + 'です。'">表示する部分</h3>
+
+	<hr>
+
+	<!-- 04：値結合（リテラル置換） -->
+	<h1>04：値結合（リテラル置換）</h1>
+	<h3 th:text="|こんにちは！${name}さん|">表示する部分</h3>
+
+	<hr>
+
+	<!-- 05：ローカル変数 -->
+	<h1>05：ローカル変数</h1>
+	<div th:with="a=1, b=2">
+		<span th:text="|${a}+${b} = ${a+b}|">表示する部分</span>
+	</div>
+
+	<hr>
+
+	<!-- 06：比較と等価 -->
+	<h1>06：比較と等価</h1>
+	<p>
+		1 &gt; 10 ===&gt;
+		<span th:text="1 > 10">表示する部分</span>
+	</p>
+	<p>
+		1 &lt; 10 ===&gt;
+		<span th:text="1 < 10">表示する部分</span>
+	</p>
+	<p>
+		1 &gt;= 10 ===&gt;
+		<span th:text="1 >= 10">表示する部分</span>
+	</p>
+	<p>
+		1 &lt;= 10 ===&gt;
+		<span th:text="1 <= 10">表示する部分</span>
+	</p>
+	<p>
+		1 == 10 ===&gt;
+		<span th:text="1 == 10">表示する部分</span>
+	</p>
+	<p>
+		1 != 10 ===&gt;
+		<span th:text="1 != 10">表示する部分</span>
+	</p>
+	<p>
+		太郎 == 太郎 ===&gt;
+		<span th:text="太郎 == 太郎">表示する部分</span>
+	</p>
+	<p>
+		太郎 != 太郎 ===&gt;
+		<span th:text="太郎 != 太郎">表示する部分</span>
+	</p>
+
+	<hr>
+
+	<!-- 07：条件演算子（三項演算子） -->
+	<h1>07：条件演算子（三項演算子）</h1>
+	<p th:text="${name}=='太郎'?'太郎さんです！':'太郎さんではありません'">表示する部分</p>
+
+	<hr>
+
+	<!-- 08_1：条件分岐（true） -->
+	<h1>08_1：条件分岐（true）</h1>
+	<div th:if="${name}=='太郎'">
+		<p>太郎さんです！</p>
+	</div>
+
+	<hr>
+
+	<!--
+		08_2：条件分岐（true）th:block の用例
+		<th:block> タグは、レンダリング後に消去される。
+		よって、上の 08_1 のように div タグを使わず済ませたい場合などに有用かもしれない。
+	-->
+	<h1>08_2：条件分岐（true）th:block の用例</h1>
+	<p>
+		&lt;th:block&gt; タグは、レンダリング後に消去される。
+		よって、上の 08_1 のように div タグを使わず済ませたい場合などに有用かもしれない。
+	</p>
+	<th:block th:if="${name}=='太郎'">
+		<p>太郎さんです！</p>
+	</th:block>
+
+	<hr>
+
+	<!-- 09：条件分岐（false） -->
+	<h1>09：条件分岐（false）</h1>
+	<div th:unless="${name}=='花子'">
+		<p>花子さんではありません。</p>
+	</div>
+
+	<hr>
+
+	<!-- 10：条件分岐（false） -->
+	<h1>10：条件分岐（false）</h1>
+	<div th:switch="${name}">
+		<p th:case="太郎" th:text="|${name}です！|"></p>
+		<p th:case="ジロウ" th:text="|${name}です！|"></p>
+		<p th:case="花子" th:text="|${name}です！|"></p>
+		<p th:case="*">名簿にありません。</p>
+	</div>
+
+	<hr>
+
+	<!-- 11：参照（データをまとめたオブジェクト） -->
+	<h1>11：参照（データをまとめたオブジェクト）</h1>
+	<p>
+		${オブジェクト名.フィールド名}でアクセス
+		<span th:text="${mb.id}">表示する部分（ID）</span>
+		<span th:text="${mb.name}">表示する部分（名前）</span>
+	</p>
+	<p>
+		${オブジェクト名['フィールド名']}でアクセス
+		<span th:text="${mb['id']}">表示する部分（ID）</span>
+		<span th:text="${mb['name']}">表示する部分（名前）</span>
+	</p>
+
+	<hr>
+
+	<!-- 12：参照（データをまとめたオブジェクト） -->
+	<h1>12：参照（データをまとめたオブジェクト）</h1>
+	<th:block th:object="${mb}">
+		<p>
+			*{フィールド名}でアクセス
+			<span th:text="*{id}">表示する部分（ID）</span>
+			<span th:text="*{name}">表示する部分（名前）</span>
+		</p>
+		<p>
+			*{['フィールド名']}でアクセスでアクセス
+			<span th:text="*{['id']}">表示する部分（ID）</span>
+			<span th:text="*{['name']}">表示する部分（名前）</span>
+		</p>
+	</th:block>
+
+	<hr>
+
+	<!-- 13：参照（List） -->
+	<h1>13：参照（List）</h1>
+	<p>
+		<span th:text="${list[0]}">方角</span>
+		<span th:text="${list[1]}">方角</span>
+		<span th:text="${list[2]}">方角</span>
+		<span th:text="${list[3]}">方角</span>
+	</p>
+
+	<hr>
+
+	<!-- 14：参照（Map） -->
+	<h1>14：参照（Map）</h1>
+	<p>
+		.でアクセス：
+		<span th:text="${map.tanaka.name}">名前１</span>
+		<span th:text="${map.suzuki.name}">名前２</span>
+	</p>
+	<p>
+		[]でアクセス：
+		<span th:text="${map['tanaka']['name']}">名前１：[] でアクセス</span>
+		<span th:text="${map['suzuki']['name']}">名前２：[] でアクセス</span>
+	</p>
+
+	<hr>
+
+	<!-- 15：繰り返し -->
+	<h1>15：繰り返し</h1>
+	<div th:each="member:${members}">
+		<p>[[${member.id}]]:[[${member.name}]]</p>
+	</div>
+
+	<hr>
+
+	<!-- 16：繰り返しのステータス -->
+	<h1>16：繰り返しのステータス</h1>
+	<!--
+	【補足説明】
+		members の要素型を member として扱いつつ、* による参照を
+		使用するために、th:object="${member}" と記述している。
+		th:each="member の member と
+		th:object="${member}" の member は、
+		同じ綴りであれば、例えば 両方を hoge としても、正常に動作する。
+		次行が、その実装例である。
+		<div th:each="hoge, s:${members}" th:object="${hoge}">
+	-->
+	<div th:each="member, s:${members}" th:object="${member}">
+		<p>
+			index->[[${s.index}]],
+			count->[[${s.count}]],
+			size->[[${s.size}]],
+			current->[[${s.current}]],
+			even->[[${s.even}]],
+			odd->[[${s.odd}]],
+			first->[[${s.first}]],
+			last->[[${s.last}]],
+			[[*{id}]]:[[*{name}]]
+		</p>
+	</div>
+
+	<hr>
+
+	<!-- 17：ユーティリティオブジェクト（数値・日時・文字列） -->
+	<h1>17：ユーティリティオブジェクト（数値・日時・文字列）</h1>
+	<p>
+		ユーティリティオブジェクトは、thymeleaf の jar に収録されている API である。
+		例えば、#numbers は、<br>
+		import org.thymeleaf.expression.Numbers;<br>
+		でインポート可能なクラスである。
+		故に、下の例以外のメソッドもある為、ソースを確認することは有効かもしれない。
+		ユーティリティオブジェクトは、"org.thymeleaf.expression"の下位にまとめられている。
+	</p>
+	<div th:with="x=1000000, y=123456.789">
+		整数のフォーマット:
+		<span th:text="${#numbers.formatInteger(x, 3, 'COMMA')}">表示する部分</span>
+		<br> 浮動小数点のフォーマット:
+		<span th:text="${#numbers.formatDecimal(y, 3, 'COMMA', 2, 'POINT')}">表示する部分</span>
+	</div>
+	<br>
+	<div th:with="today=${#dates.createNow()}">
+		yyyy/mm/dd 形式:
+		<span th:text="${#dates.format(today, 'yyyy/MM/dd')}">表示する部分</span>
+		<br> yyyy年mm月dd日形式:
+		<span th:text="${#dates.format(today, 'yyyy年MM月dd日')}">表示する部分</span>
+		<br> yyyy年:
+		<span th:text="${#dates.year(today)}">表示する部分</span>
+		<br> MM月:
+		<span th:text="${#dates.month(today)}">表示する部分</span>
+		<br> dd日:
+		<span th:text="${#dates.day(today)}">表示する部分</span>
+		<br> 曜日:
+		<span th:text="${#dates.dayOfWeek(today)}">表示する部分</span>
+		<br>
+	</div>
+	<br>
+	<div th:with="str1='abcdef'">
+		大文字変換:
+		<span th:text="${#strings.toUpperCase(str1)}">表示する部分</span>
+		<br> 空文字判定:
+		<span th:text="${#strings.isEmpty(str1)}">表示する部分</span>
+		<br> 長さ:
+		<span th:text="${#strings.length(str1)}">表示する部分</span>
+		<br>
+	</div>
+	<h3>使用頻度が高そうなユーティリティオブジェクト一覧表</h3>
+    <table>
+        <tr>
+            <th>クラス名</th>
+            <th>ユーティリティオブジェクト名</th>
+        </tr>
+        <tr>
+            <td>Strings</td>
+            <td>#strings</td>
+        </tr>
+        <tr>
+            <td>Numbers</td>
+            <td>#numbers</td>
+        </tr>
+        <tr>
+            <td>Bools</td>
+            <td>#bools</td>
+        </tr>
+        <tr>
+            <td>Dates</td>
+            <td>#dates</td>
+        </tr>
+        <tr>
+            <td>Objects</td>
+            <td>#objects</td>
+        </tr>
+        <tr>
+            <td>Arrays</td>
+            <td>#arrays</td>
+        </tr>
+        <tr>
+            <td>Lists</td>
+            <td>#lists</td>
+        </tr>
+        <tr>
+            <td>Sets</td>
+            <td>#sets</td>
+        </tr>
+        <tr>
+            <td>Maps</td>
+            <td>#maps</td>
+        </tr>
+    </table>
+
+	<hr>
+
+	<!-- 18：フラグメントを埋め込む -->
+	<h1>18：フラグメントを埋め込む</h1>
+	<h3>Fragment をこの下に埋め込む</h3>
+	<div th:insert="~{fragment::one}">表示する部分</div>
+	<div th:replace="~{fragment::three}">表示する部分</div>
+
+</body>
+</html>

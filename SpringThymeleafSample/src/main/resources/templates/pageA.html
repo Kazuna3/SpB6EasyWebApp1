@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--
+  -- コメントアウト部は、Spring boot 2.6 より前のバージョンでのコーディングである。
+  -- 【参考情報】https://yucatio.hatenablog.com/entry/2022/02/09/225705
+
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{commons/layout}">
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{commons/layout}">
+<head>
+<meta charset="UTF-8">
+<title>ページA</title>
+</head>
+<body>
+	<!-- 置き換わる内容 -->
+	<div layout:fragment="content">
+		<h1>PageA</h1>
+	</div>
+</body>
+</html>

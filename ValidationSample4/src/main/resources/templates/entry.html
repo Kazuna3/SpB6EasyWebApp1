@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title th:text="#{title.entry}">タイトル</title>
+</head>
+<body>
+	<form th:action="@{/calc}" method="post" th:object="${calcForm}">
+		<div>
+			<!-- th:field は、HTML の id 属性, name 属性, value 属性を生成する。 -->
+			<input type="text" th:field="*{leftNum}">
+			+
+			<input type="text" th:field="*{rightNum}">
+		</div>
+		<button type="submit" th:text="#{button.send}"></button>
+		<!-- エラーを表示する -->
+		<ul th:if="${#fields.hasErrors('*')}">
+			<li th:each="err:${#fields.errors('*')}" th:text="${err}"></li>
+		</ul>
+		<div th:if="${#fields.hasErrors('leftOddAndRightEven')}" th:errors="*{leftOddAndRightEven}"></div>
+	</form>
+</body>
+</html>
