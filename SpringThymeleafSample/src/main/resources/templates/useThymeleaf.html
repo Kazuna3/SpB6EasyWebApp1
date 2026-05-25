@@ -221,6 +221,12 @@ th {
 
 	<!-- 15：繰り返し -->
 	<h1>15：繰り返し</h1>
+	<h2>実装方法 1</h2>
+	<div th:each="member:${members}">
+		<p th:text="|${member.id}:${member.name}|">表示する部分</p>
+	</div>
+
+	<h2>実装方法 2</h2>
 	<div th:each="member:${members}">
 		<p>[[${member.id}]]:[[${member.name}]]</p>
 	</div>
