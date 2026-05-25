@@ -174,11 +174,32 @@ th {
 
 	<!-- 13：参照（List） -->
 	<h1>13：参照（List）</h1>
+	<h2>実装方法 1</h2>
 	<p>
 		<span th:text="${list[0]}">方角</span>
 		<span th:text="${list[1]}">方角</span>
 		<span th:text="${list[2]}">方角</span>
 		<span th:text="${list[3]}">方角</span>
+	</p>
+
+	<h2>実装方法 2</h2>
+	<p>
+		<span th:each="dir:${list}" th:text="${dir}">方角</span>
+	</p>
+
+	<h2>実装方法 3</h2>
+	<p th:each="dir:${list}">
+		<span th:text="${dir}">方角</span>
+	</p>
+
+	<h2>実装方法 4</h2>
+	<p>
+		<span th:each="dir:${list}">[[${dir}]]</span>
+	</p>
+
+	<h2>実装方法 5</h2>
+	<p th:each="dir:${list}">
+		<span>[[${dir}]]</span>
 	</p>
 
 	<hr>
